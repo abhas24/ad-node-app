@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ad-node-app
+  labels:
+    app: ad-node-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ad-node-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ad-node-app
+    spec:
+      containers:
+      - image: abtejora/node-web-app:latest
+        imagePullPolicy: Always
+        name: ad-node-app
+        ports:
+        - containerPort: 5000
+          protocol: TCP
